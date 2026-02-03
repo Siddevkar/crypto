@@ -1,0 +1,19 @@
+name: ETH Bot
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run_trade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - run: pip install ccxt pandas numpy scipy
+      - env:
+          DELTA_API_KEY: ${{ secrets.DELTA_API_KEY }}
+          DELTA_SECRET: ${{ secrets.DELTA_SECRET }}
+        run: python whale_bot.py
