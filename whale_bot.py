@@ -8,7 +8,7 @@ from datetime import datetime
 
 # --- CONFIGURATION ---
 SYMBOL = 'ETH/USDT'     # Coin to trade
-QUANTITY = 4            # Number of Contracts to Buy/Sell
+QUANTITY = 40           # 40 Contracts = 0.04 ETH (Approx ₹500 Margin)
 LEVERAGE = 20           # Leverage (Risk)
 TF_STRUCTURE = '4h'     # Timeframe for finding Zones (Major Trend)
 TF_ENTRY = '1h'         # Timeframe for Entry (Minor Trend)
@@ -89,7 +89,7 @@ def execute_trade():
         
         # Condition: Price is very close (0.5%) AND Candle is GREEN
         if dist < 0.005 and current_price > open_price:
-            sl = zone * 0.995 # SL slightly below zone
+            sl = zone * 0.99  # <--- STOP LOSS: 1% below Zone
             print(f"🚀 BUY SIGNAL! Price: {current_price}, Zone: {zone}, SL: {sl}")
             
             try:
@@ -113,7 +113,7 @@ def execute_trade():
         
         # Condition: Price is very close (0.5%) AND Candle is RED
         if dist < 0.005 and current_price < open_price:
-            sl = zone * 1.005 # SL slightly above zone
+            sl = zone * 1.01  # <--- STOP LOSS: 1% above Zone
             print(f"📉 SELL SIGNAL! Price: {current_price}, Zone: {zone}, SL: {sl}")
             
             try:
@@ -134,7 +134,7 @@ def execute_trade():
 # --- 4. MAIN LOOP ---
 if __name__ == "__main__":
     print("🤖 Whale Bot Started in Continuous Mode...")
-    print("Press Ctrl+C to stop if running locally.")
+    print("   -> Qty: 40 | Leverage: 20x | SL: 1%")
     
     while True:
         try:
@@ -146,3 +146,4 @@ if __name__ == "__main__":
         
         # Wait before next check
         time.sleep(CHECK_INTERVAL)
+        
